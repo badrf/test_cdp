@@ -5,15 +5,14 @@ node_js:
         - "iojs"
         - "7"
 before_install:
-
+  - pip install selenium
+  - pwd
+  - ls -la
+  - cd src/js
+  - node app.js
 script :
                 - echo "Waiting a bit before pinging the containers..."
                 - sleep 15
                 - curl localhost:8080
                 - curl localhost:4444
                 - curl localhost:8081
-                - echo "Starting DB tests..."
-                - sh execute_tests_db.sh
-                - echo "Installing Node dependencies..."
-                - npm install nightwatch sha1 mysql
-                - echo "Starting E2E tests..."
