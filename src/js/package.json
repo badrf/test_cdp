@@ -1,0 +1,22 @@
+{
+  "name": "cdp2018",
+  "version": "1.0.0",
+  "description": "install dependencies",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.11.0"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/badrf/CDP-2018.git"
+  },
+  "author": "1-2",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/badrf/CDP-2018/issues"
+  },
+  "homepage": "https://github.com/badrf/CDP-2018#readme"
+}
