@@ -9,6 +9,7 @@ before_install:
   - ls -la
   - cd src/js
   - node app.js
+  - curl localhost:8080
 script :
                 - echo "Waiting a bit before pinging the containers..."
                 - sleep 15
