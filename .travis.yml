@@ -1,18 +1,2 @@
-sudo: required
 language: 
         - node_js
-node_js:
-        - "iojs"
-        - "7"
-before_install:
-  - pwd
-  - ls -la
-  - cd src/js
-  - node app.js
-  - curl localhost:8080
-script :
-                - echo "Waiting a bit before pinging the containers..."
-                - sleep 15
-                - curl localhost:8080
-                - curl localhost:4444
-                - curl localhost:8081
