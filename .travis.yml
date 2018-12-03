@@ -4,6 +4,10 @@ addons:
     packages:
       - docker-ce
   sonarcloud:
+    sonarcloud:
+    organization: "badrf_test_cdp" # the key of the org you chose at step #3
+    token:
+      secure: ba1e41419f8a763efac851a4bfdd0dcbbbaf46a3 # encrypted value of your token
       organization: "badrf-github"
 
 services:
