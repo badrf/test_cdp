@@ -2,7 +2,7 @@ language:
         - node_js
 addons:
   sonarcloud:
-    organization: "sonarcloud_organization_key" # the key of the org you chose at step #3
+    organization: "badrf_test_cdp" # the key of the org you chose at step #3
     token:
       secure: ********* # encrypted value of your token
 script:
