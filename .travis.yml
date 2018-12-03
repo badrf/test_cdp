@@ -1,10 +1,39 @@
+sudo: required
+addons:
+  apt:
+    packages:
+      - docker-ce
+  sonarcloud:
+      organization: "badrf-github"
+
+services:
+        - docker
+dist: trusty
 language: 
         - node_js
-addons:
-  sonarcloud:
-    organization: "badrf_test_cdp" # the key of the org you chose at step #3
-    token:
-      secure: ba1e41419f8a763efac851a4bfdd0dcbbbaf46a3 # encrypted value of your token
-script:
-  # other script steps might be done before running the actual analysis
-  - sonar-scanner
+
+node_js:
+        - "iojs"
+        - "7"
+before_install:
+        - sudo /etc/init.d/mysql stop
+        - pwd
+        - ls -la
+        - sudo docker-compose up -d
+        - docker --version
+        - pip install selenium
+        - pip install mysql-connector
+
+script :
+                - sonar-scanner
+                - echo "Waiting a bit before pinging the containers..."
+                - sleep 15
+                - curl localhost:8080
+                - curl localhost:4444
+                - curl localhost:8081
+                - echo "Starting DB tests..."
+                - sh execute_tests_db.sh
+                - echo "Installing Node dependencies..."
+                - npm install nightwatch sha1 mysql
+                - echo "Starting E2E tests..."
+- sh execute_tests_e2e.sh
