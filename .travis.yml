@@ -1,43 +1,41 @@
-sudo: required
-addons:
-  apt:
-    packages:
-      - docker-ce
-  sonarcloud:
-    sonarcloud:
-    organization: "badrf_test_cdp" # the key of the org you chose at step #3
-    token:
-      secure: ba1e41419f8a763efac851a4bfdd0dcbbbaf46a3 # encrypted value of your token
-      organization: "badrf-github"
+language: node_js
 
 services:
-        - docker
-dist: trusty
-language: 
-        - node_js
-
+- docker
 node_js:
-        - "iojs"
-        - "7"
-before_install:
-        - sudo /etc/init.d/mysql stop
-        - pwd
-        - ls -la
-        - sudo docker-compose up -d
-        - docker --version
-        - pip install selenium
-        - pip install mysql-connector
+- '8'
 
-script :
-                - sonar-scanner
-                - echo "Waiting a bit before pinging the containers..."
-                - sleep 15
-                - curl localhost:8080
-                - curl localhost:4444
-                - curl localhost:8081
-                - echo "Starting DB tests..."
-                - sh execute_tests_db.sh
-                - echo "Installing Node dependencies..."
-                - npm install nightwatch sha1 mysql
-                - echo "Starting E2E tests..."
-- sh execute_tests_e2e.sh
+addons:
+  sonarcloud:
+    organization: "badrf-github" # the key of the org you chose at step #3
+    token:
+      secure: "$SONAR_TOKEN" # encrypted value of your token
+
+install:
+  - docker-compose -f docker-compose-dev.yml up --build -d
+  - npm install
+
+script:
+  - npm test 
+  - npm run teste2e
+
+
+after_script:
+  - sonar-scanner
+
+before_deploy:
+- docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASS"
+- git config --local user.name "badrf"
+- docker build . -t "pierrinator/cdp2018:$TRAVIS_TAG"
+- docker tag "pierrinator/cdp2018:$TRAVIS_TAG" "pierrinator/cdp2018:latest"
+- docker push pierrinator/cdp2018:$TRAVIS_TAG
+- docker push pierrinator/cdp2018:latest
+
+deploy:
+  provider: script
+  script: bash ./scripts/deploy.sh
+  on:
+    tags: true
+    branches:
+      only:
+- /v\d+\.\d+/
