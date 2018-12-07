@@ -1,0 +1,10 @@
+[default]
+name=Default
+runtime=host
+config-opts=
+run-opts=
+prefix=/home/badr/.cache/gnome-builder/install/test_cdp/host
+app-id=
+postbuild=
+prebuild=
+default=true
